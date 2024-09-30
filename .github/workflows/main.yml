@@ -1,25 +1,27 @@
-name: Send Email Every Hour
+name: Check Website and Send Email
 
 on:
   schedule:
-    # Nastavi časovni interval, da se program izvaja vsako uro
+    # Zaženi vsakih 60 minut (cron format)
     - cron: '0 * * * *'  # To pomeni vsakih 60 minut
 
+  workflow_dispatch:  # To omogoči ročni zagon workflow-a
+
 jobs:
-  send-email:
+  check-and-email:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3  # Klonira tvoj repozitorij
+      - uses: actions/checkout@v3  # Klonira tvoj repozitorij z GitHub-a
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Nastavi različico Pythona, ki jo uporabljaš
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
-          pip install requests  # Namesti knjižnico requests, ki jo uporabljaš v Pythonu
+          pip install requests beautifulsoup4  # Namesti knjižnice requests in BeautifulSoup
 
       - name: Run the script
-        run: app.py  # Zažene tvojo Python skripto
+        run: app.py  # Zažene tvojo Python skripto z imenom app.py
