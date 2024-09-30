@@ -24,4 +24,4 @@ jobs:
           pip install requests beautifulsoup4  # Namesti knjižnice requests in BeautifulSoup
 
       - name: Run the script
-        run: app.py  # Zažene tvojo Python skripto z imenom app.py
+        run: python app.py  # Zažene tvojo Python skripto z imenom app.py
