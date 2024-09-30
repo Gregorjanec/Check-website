@@ -22,4 +22,4 @@ jobs:
           pip install requests  # Namesti knjižnico requests, ki jo uporabljaš v Pythonu
 
       - name: Run the script
-        run: python app.py  # Zažene tvojo Python skripto
+        run: app.py  # Zažene tvojo Python skripto
