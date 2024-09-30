@@ -1,0 +1,25 @@
+name: Send Email Every Hour
+
+on:
+  schedule:
+    # Nastavi časovni interval, da se program izvaja vsako uro
+    - cron: '0 * * * *'  # To pomeni vsakih 60 minut
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3  # Klonira tvoj repozitorij
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # Nastavi različico Pythona, ki jo uporabljaš
+
+      - name: Install dependencies
+        run: |
+          pip install requests  # Namesti knjižnico requests, ki jo uporabljaš v Pythonu
+
+      - name: Run the script
+        run: python app.py  # Zažene tvojo Python skripto
