@@ -35,22 +35,24 @@ try:
                 f.write('\n'.join(nova_obvestila))
 
     # Funkcija za pošiljanje e-pošte preko Formspree
-    def poslji_mail_o_novih_obvestilih(nova_obvestila):
-        url = 'https://formspree.io/f/manwrpzz'  # Tvoj Formspree URL
-        mail_body = '\n'.join(nova_obvestila)
+def poslji_mail_o_novih_obvestilih(nova_obvestila):
+    print(f"Nova obvestila: {nova_obvestila}")  # Dodaj to vrstico za izpis obvestil
+    url = 'https://formspree.io/f/manwrpzz'  # Tvoj Formspree URL
+    mail_body = '\n'.join(nova_obvestila)
 
-        # Pošlji podatke kot JSON
-        data = {
-            'email': 'grega.grajzl@student.um.si',
-            'message': mail_body
-        }
+    # Pošlji podatke kot JSON
+    data = {
+        'email': 'grega.grajzl@student.um.si',
+        'message': mail_body
+    }
 
-        response = requests.post(url, data=data)
+    response = requests.post(url, data=data)
 
-        if response.status_code == 200:
-            print("E-pošta uspešno poslana!")
-        else:
-            print("Napaka pri pošiljanju e-pošte:", response.status_code)
+    if response.status_code == 200:
+        print("E-pošta uspešno poslana!")
+    else:
+        print(f"Napaka pri pošiljanju e-pošte: {response.status_code}")
+
 
     if __name__ == "__main__":
         preveri_nova_obvestila()
