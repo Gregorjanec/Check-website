@@ -15,11 +15,15 @@ def preveri_nova_obvestila():
         # Poišči element, kjer je število obvestil
         badge_element = soup.find('span', id='cp_total_results')
 
-        if badge_element:
-            stevilo_obvestil = int(badge_element.text.strip())
-            print(f"Število obvestil: {stevilo_obvestil}")
+        if badge_element and badge_element.text.strip():
+            try:
+                stevilo_obvestil = int(badge_element.text.strip())
+                print(f"Število obvestil: {stevilo_obvestil}")
+            except ValueError:
+                print(f"Napaka: Element ni vseboval veljavnega števila. Vsebina elementa: {badge_element.text.strip()}")
+                return
         else:
-            print("Element s številom obvestil ni bil najden.")
+            print("Element s številom obvestil ni bil najden ali je prazen.")
             return
 
         # Preveri, ali so nova obvestila
@@ -50,7 +54,6 @@ def poslji_mail_o_novih_obvestilih(stevilo_obvestil):
         url = 'https://formspree.io/f/manwrpzz'  # Tvoj Formspree URL
         mail_body = f"Novo obvestilo!\nNa spletni strani je bilo objavljenih {stevilo_obvestil} obvestil.\n\n"
         mail_body += f"Ogled obvestil: {url}"  # Dodaj povezavo do strani
-
         # Pošlji podatke kot JSON
         data = {
             'email': 'grega.grajzl@student.um.si',  # Spremeni na svoj e-poštni naslov
