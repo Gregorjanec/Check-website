@@ -8,17 +8,18 @@ on:
 jobs:
   check_notifications:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Posodobljeno na v4
 
+      # Preveri, ali obstajajo artefakti, in jih prenesi, če obstajajo
       - name: Download artifact (stevilo_obvestil.txt)
-        # Poskusi prenesti stevilo_obvestil.txt iz prejšnjega izvajanja
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: stevilo_obvestil
           path: .
+        continue-on-error: true  # Ne ustavi procesa, če artefakta ni (prvič)
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -34,9 +35,10 @@ jobs:
         run: |
           python script.py
 
+      # Shrani stevilo_obvestil.txt kot artefakt za naslednja izvajanja
       - name: Upload artifact (stevilo_obvestil.txt)
-        # Po končanem zagonu shrani stevilo_obvestil.txt kot artefakt
         uses: actions/upload-artifact@v3
         with:
           name: stevilo_obvestil
           path: stevilo_obvestil.txt
+        continue-on-error: false  # Poskrbi, da nalaganje ne bo preskočeno
