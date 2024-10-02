@@ -48,7 +48,7 @@ def poslji_mail_o_novih_obvestilih(stevilo_obvestil):
 
         # Pošlji podatke kot JSON
         data = {
-            'email': 'prejemnik@example.com',
+            'email': 'grega.grajzl@student.um.si',
             'message': mail_body
         }
 
