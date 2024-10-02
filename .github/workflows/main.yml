@@ -26,6 +26,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Chrome and ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip xvfb libxi6 libgconf-2-4
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
+          wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_VERSION.0/chromedriver_linux64.zip
+          unzip /tmp/chromedriver.zip -d /tmp
+          sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+
       - name: Run notification script
         run: |
           python script.py
@@ -33,5 +47,7 @@ jobs:
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: 'Update notification count'
+          author_name: GitHub Actions
+          author_email: actions@github.com
+          message: Update notification count
           add: 'stevilo_obvestil.txt'
