@@ -1,9 +1,11 @@
 name: Check Website Notifications
 
+# Omogoči ročni zagon z workflow_dispatch
 on:
   schedule:
     # Izvajaj skripto vsakih 30 minut (cron format)
     - cron: "*/30 * * * *"
+  workflow_dispatch:  # Ta del omogoča ročni zagon
 
 jobs:
   check_notifications:
