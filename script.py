@@ -69,7 +69,7 @@ def preveri_nova_obvestila():
 def poslji_mail_o_novih_obvestilih(stevilo_obvestil):
     try:
         # Seznam prejemnikov
-        prejemniki = ['grega.grajzl@student.um.si', 'sosolec@example.com', 'sosolka@example.com']  # Dodaj več prejemnikov
+        prejemniki = ['grega.grajzl@student.um.si']  # Dodaj več prejemnikov
 
         url = 'https://formspree.io/f/manwrpzz'  # Pravi Formspree URL
         mail_body = f"Novo obvestilo!\nNa spletni strani je bilo objavljeno novo obvestilo.\n\n"
