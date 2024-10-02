@@ -64,8 +64,8 @@ def preveri_nova_obvestila():
 # Funkcija za pošiljanje e-pošte preko Formspree
 def poslji_mail_o_novih_obvestilih(stevilo_obvestil):
     try:
-        url = 'https://formspree.io/f/manwrpzz'  # Tvoj Formspree URL
-        mail_body = f"Novo obvestilo!\nNa spletni strani je bilo objavljenih {stevilo_obvestil} obvestil.\n\n"
+        url = 'https://www.fe.um.si/aktualna-obvestila.html?option=com_customproperties&view=search&Itemid=427&lang=sl&cp%5Bprogram%5D%5B%5D=mag&cp%5Bprogram%5D%5B%5D=&cp%5Bletnik%5D%5B%5D=1_letnik&cp%5Bletnik%5D%5B%5D=&cp%5Bnacin%5D%5B%5D=redni&cp%5Bnacin%5D%5B%5D=&cp%5Blokacija%5D%5B%5D=krsko&cp%5Blokacija%5D%5B%5D=&submit_search='  # Tvoj Formspree URL
+        mail_body = f"Novo obvestilo!\nNa spletni strani je bilo objavljeno novo obvestilo.\n\n"
         mail_body += f"Ogled obvestil: {url}"  # Dodaj povezavo do strani
 
         # Pošlji podatke kot JSON
