@@ -12,12 +12,15 @@ def preveri_nova_obvestila():
         response.raise_for_status()  # Preveri, če je bila zahteva uspešna
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Poišči obvestila na strani
-        obvestila = soup.find_all('div', class_='customproperties-items')
+        # Poišči element, kjer je število obvestil
+        badge_element = soup.find('span', id='cp_total_results')
 
-        # Pridobi število obvestil
-        stevilo_obvestil = len(obvestila)
-        print(f"Število obvestil: {stevilo_obvestil}")
+        if badge_element:
+            stevilo_obvestil = int(badge_element.text.strip())
+            print(f"Število obvestil: {stevilo_obvestil}")
+        else:
+            print("Element s številom obvestil ni bil najden.")
+            return
 
         # Preveri, ali so nova obvestila
         if not os.path.exists('stevilo_obvestil.txt'):
@@ -44,7 +47,7 @@ def preveri_nova_obvestila():
 def poslji_mail_o_novih_obvestilih(stevilo_obvestil):
     try:
         url = 'https://formspree.io/f/manwrpzz'  # Tvoj Formspree URL
-        mail_body = f"Na spletni strani je bilo objavljenih novih obvestil: {stevilo_obvestil}"
+        mail_body = f"Na spletni strani je bilo objavljenih {stevilo_obvestil} obvestil."
 
         # Pošlji podatke kot JSON
         data = {
