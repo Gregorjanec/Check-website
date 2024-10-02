@@ -2,9 +2,8 @@ name: Check Website Notifications
 
 on:
   schedule:
-    # Izvajaj skripto vsakih 30 minut (cron format)
-    - cron: "*/30 * * * *"
-  workflow_dispatch:  # Omogoči ročni zagon
+    - cron: "*/30 * * * *"  # Vsakih 30 minut
+  workflow_dispatch:  # Omogoča ročni zagon
 
 jobs:
   check_notifications:
@@ -12,10 +11,10 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # Posodobljeno na v3
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4  # Posodobljeno na v4
+        uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
@@ -27,3 +26,14 @@ jobs:
       - name: Run notification script
         run: |
           python script.py
+
+      # Koraki za commit in push datoteke
+      - name: Commit and push updated file
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add stevilo_obvestil.txt
+          git commit -m "Posodobitev števila obvestil"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
