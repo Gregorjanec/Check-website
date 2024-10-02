@@ -19,7 +19,7 @@ jobs:
         with:
           name: stevilo_obvestil
           path: .
-        continue-on-error: true  # Ne ustavi procesa, če artefakta ni (prvič)
+        continue-on-error: true  # Ne ustavi procesa, če artefakta ni (prvi zagon)
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -41,4 +41,4 @@ jobs:
         with:
           name: stevilo_obvestil
           path: stevilo_obvestil.txt
-        continue-on-error: false  # Poskrbi, da nalaganje ne bo preskočeno
+        continue-on-error: false  # Preveri, da se artefakt vedno naloži
