@@ -24,6 +24,7 @@ def preveri_nova_obvestila():
 
         # Preveri, ali so nova obvestila
         if not os.path.exists('stevilo_obvestil.txt'):
+            # Če datoteka ne obstaja, jo ustvari in shrani trenutno število obvestil
             with open('stevilo_obvestil.txt', 'w') as f:
                 f.write(str(stevilo_obvestil))
             return
@@ -36,7 +37,7 @@ def preveri_nova_obvestila():
                 poslji_mail_o_novih_obvestilih(stevilo_obvestil)
                 f.seek(0)
                 f.truncate()
-                f.write(str(stevilo_obvestil))
+                f.write(str(stevilo_obvestil))  # Posodobi datoteko s trenutnim številom obvestil
 
     except requests.exceptions.RequestException as e:
         print(f"Napaka pri dostopu do spletne strani: {e}")
@@ -47,11 +48,12 @@ def preveri_nova_obvestila():
 def poslji_mail_o_novih_obvestilih(stevilo_obvestil):
     try:
         url = 'https://formspree.io/f/manwrpzz'  # Tvoj Formspree URL
-        mail_body = f"Na spletni strani je bilo objavljenih {stevilo_obvestil} obvestil."
+        mail_body = f"Novo obvestilo!\nNa spletni strani je bilo objavljenih {stevilo_obvestil} obvestil.\n\n"
+        mail_body += f"Ogled obvestil: {url}"  # Dodaj povezavo do strani
 
         # Pošlji podatke kot JSON
         data = {
-            'email': 'grega.grajzl@student.um.si',
+            'email': 'grega.grajzl@student.um.si',  # Spremeni na svoj e-poštni naslov
             'message': mail_body
         }
 
