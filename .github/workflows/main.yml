@@ -1,27 +1,28 @@
-name: Check Website and Send Email
+name: Check Website Notifications
 
 on:
   schedule:
-    # Zaženi vsakih 60 minut (cron format)
-    - cron: '0 * * * *'  # To pomeni vsakih 60 minut
-
-  workflow_dispatch:  # To omogoči ročni zagon workflow-a
+    # Izvajaj skripto vsakih 30 minut (cron format)
+    - cron: "*/30 * * * *"
 
 jobs:
-  check-and-email:
+  check_notifications:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - uses: actions/checkout@v3  # Klonira tvoj repozitorij z GitHub-a
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4  # Namesti knjižnice requests in BeautifulSoup
-
-      - name: Run the script
-        run: python app.py  # Zažene tvojo Python skripto z imenom app.py
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run notification script
+        run: |
+          python app.py
