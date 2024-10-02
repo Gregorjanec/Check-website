@@ -1,4 +1,4 @@
-import requests
+gimport requests
 from bs4 import BeautifulSoup
 import os
 
@@ -38,7 +38,7 @@ def poslji_mail_o_novih_obvestilih(nova_obvestila):
 
     # Pošlji podatke kot JSON
     data = {
-        'email': 'tvoj-email@example.com',
+        'email': 'grega.grajzl@student.um.si',
         'message': mail_body
     }
 
