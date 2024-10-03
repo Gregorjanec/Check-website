@@ -3,8 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import os
 
@@ -18,15 +16,13 @@ def check_new_notifications():
     options.add_argument('--disable-dev-shm-usage')
 
     # Use webdriver-manager to handle ChromeDriver installation
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
     try:
         driver.get(url)
 
         # Wait for the element to load
-        wait = WebDriverWait(driver, 10)
-        badge_element = wait.until(EC.presence_of_element_located((By.ID, 'cp_total_results')))
+        badge_element = driver.find_element(By.ID, 'cp_total_results')
 
         if badge_element and badge_element.text.strip():
             current_notifications = int(badge_element.text.strip())
@@ -61,7 +57,7 @@ def check_new_notifications():
 def send_email(notification_count):
     try:
         # List of recipients
-        recipients = ['grega.grajzl@student.um.si']  # Add more recipients as needed
+        recipients = ['grega.grajzl@student.um.si']  # Add more recipients if needed
 
         formspree_url = 'https://formspree.io/f/manwrpzz'  # Your Formspree URL
         mail_body = f"Novo obvestilo!\nNa spletni strani je bilo objavljeno novo obvestilo.\n\n"
@@ -74,7 +70,7 @@ def send_email(notification_count):
             }
             response = requests.post(formspree_url, data=data)
 
-            if response.status_code == 200 or response.status_code == 201:
+            if response.status_code in [200, 201]:
                 print(f"E-pošta uspešno poslana prejemniku {recipient}!")
             else:
                 print(f"Napaka pri pošiljanju e-pošte prejemniku {recipient}: {response.status_code} - {response.text}")
