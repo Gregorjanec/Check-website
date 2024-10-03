@@ -2,8 +2,8 @@ name: Check Website Notifications
 
 on:
   schedule:
-    - cron: "*/30 * * * *"  # Runs every 30 minutes
-  workflow_dispatch:  # Allows manual triggering
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
 
 jobs:
   check_notifications:
@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -25,10 +23,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Google Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+      - name: Set up Chrome and ChromeDriver
+        uses: nanasess/setup-chromedriver@v1
+        with:
+          chrome-version: 'stable'
+          chromedriver-version: 'latest'
 
       - name: Run notification script
         run: |
