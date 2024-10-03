@@ -1,27 +1,21 @@
 import requests
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
 import os
 
 # URL of the website to check
 url = 'https://www.fe.um.si/aktualna-obvestila.html?option=com_customproperties&view=search&Itemid=427&lang=sl&cp%5Bprogram%5D%5B%5D=mag&cp%5Bletnik%5D%5B%5D=1_letnik&cp%5Bnacin%5D%5B%5D=redni&cp%5Blokacija%5D%5B%5D=krsko&submit_search='
 
 def check_new_notifications():
-    options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--window-size=1920x1080')
-
-    # Initialize the WebDriver
-    driver = webdriver.Chrome(options=options)
-
     try:
-        driver.get(url)
+        # Send a request to the website
+        response = requests.get(url)
+        response.raise_for_status()  # Check if the request was successful
 
-        # Find the element by ID
-        badge_element = driver.find_element("id", "cp_total_results")
+        # Parse the HTML content
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Find the element with id 'cp_total_results'
+        badge_element = soup.find('span', id='cp_total_results')
 
         if badge_element and badge_element.text.strip():
             current_notifications = int(badge_element.text.strip())
@@ -49,9 +43,6 @@ def check_new_notifications():
 
     except Exception as e:
         print(f"Error checking notifications: {e}")
-
-    finally:
-        driver.quit()
 
 def send_email(notification_count):
     try:
