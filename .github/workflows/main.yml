@@ -5,6 +5,9 @@ on:
     - cron: "*/30 * * * *"  # Runs every 30 minutes
   workflow_dispatch:  # Allows manual triggering
 
+permissions:
+  contents: write  # Grants write permission to the GITHUB_TOKEN
+
 jobs:
   check_notifications:
     runs-on: ubuntu-latest
