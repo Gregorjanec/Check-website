@@ -1,9 +1,6 @@
 import requests
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
 import os
 
 # URL of the website to check
@@ -11,18 +8,20 @@ url = 'https://www.fe.um.si/aktualna-obvestila.html?option=com_customproperties&
 
 def check_new_notifications():
     options = Options()
-    options.headless = True
+    options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--window-size=1920x1080')
 
-    # Use webdriver-manager to handle ChromeDriver installation
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # Initialize the WebDriver
+    driver = webdriver.Chrome(options=options)
 
     try:
         driver.get(url)
 
-        # Wait for the element to load
-        badge_element = driver.find_element(By.ID, 'cp_total_results')
+        # Find the element by ID
+        badge_element = driver.find_element("id", "cp_total_results")
 
         if badge_element and badge_element.text.strip():
             current_notifications = int(badge_element.text.strip())
