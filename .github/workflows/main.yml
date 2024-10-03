@@ -13,8 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch all history for correct git commit
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -26,34 +25,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Chrome and ChromeDriver
+      - name: Install Google Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip xvfb libxi6 libgconf-2-4
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-
-          # Get the full Chrome version
-          CHROME_VERSION=$(google-chrome --version | sed 's/^Google Chrome //' | cut -d ' ' -f 1)
-          echo "Installed Google Chrome version: $CHROME_VERSION"
-
-          # Extract the major.minor.build version
-          CHROME_VERSION_MAJOR_MINOR_BUILD=$(echo $CHROME_VERSION | cut -d '.' -f 1-3)
-          echo "Chrome major.minor.build version: $CHROME_VERSION_MAJOR_MINOR_BUILD"
-
-          # Fetch the matching ChromeDriver version
-          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION_MAJOR_MINOR_BUILD")
-          echo "Matching ChromeDriver version: $CHROMEDRIVER_VERSION"
-
-          # Download ChromeDriver
-          wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
-
-          # Install ChromeDriver
-          unzip /tmp/chromedriver.zip -d /tmp
-          sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Run notification script
         run: |
