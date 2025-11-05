@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import os
 
 # URL of the website to check
-url = 'https://www.fe.um.si/aktualna-obvestila.html?option=com_customproperties&view=search&Itemid=427&lang=sl&cp%5Bprogram%5D%5B%5D=mag&cp%5Bletnik%5D%5B%5D=1_letnik&cp%5Bnacin%5D%5B%5D=redni&cp%5Blokacija%5D%5B%5D=krsko&submit_search='
+url = 'https://www.fe.um.si/aktualna-obvestila.html?option=com_customproperties&view=search&Itemid=427&lang=sl&cp%5Bprogram%5D%5B%5D=mag&cp%5Bprogram%5D%5B%5D=&cp%5Bletnik%5D%5B%5D=2_letnik&cp%5Bletnik%5D%5B%5D=&cp%5Bnacin%5D%5B%5D=redni&cp%5Bnacin%5D%5B%5D=&cp%5Blokacija%5D%5B%5D=krsko&cp%5Blokacija%5D%5B%5D=&submit_search='
 
 def check_new_notifications():
     try:
@@ -70,3 +70,4 @@ def send_email(notification_count):
 
 if __name__ == "__main__":
     check_new_notifications()
+
